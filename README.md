@@ -16,9 +16,9 @@ The notebook builds an end-to-end facial emotion recognition workflow using seve
 
 Exact duplicate hashes with conflicting labels are removed first. The cleaned training pool is split stratified by emotion into model-training and tuning-validation sets. Model checkpoints and model selection use tuning macro F1-score only.
 
-The duplicate-safe official validation images are reserved as one untouched final test set. After selection, the notebook evaluates only the selected model on that final test set and saves the model, results CSV, and JSON run metadata together.
+The duplicate-safe official validation images are kept as the held-out final evaluation set. After model selection, only the selected model is evaluated on this set. The saved model, results CSV, and JSON metadata all come from the same completed run.
 
-Historical metrics are intentionally not published here. Run the notebook from a fresh Colab runtime, then copy only the values recorded in `deepfer_run_metadata.json` and `deepfer_model_results.csv`.
+The reference CNN achieved the best tuning result with 65.4% accuracy and 0.625 macro F1. On the held-out final set, it achieved 65.9% accuracy, 0.615 macro F1, and 0.654 weighted F1. Happy was the strongest class and fear remained the weakest.
 
 ## Limitations
 
