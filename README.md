@@ -12,13 +12,17 @@ DeepFER is an individual deep learning project that classifies facial images int
 
 The notebook builds an end-to-end facial emotion recognition workflow using seven classes: angry, disgust, fear, happy, neutral, sad, and surprise. It includes data-quality checks, duplicate handling, preprocessing, augmentation, CNN training, transfer-learning comparison, evaluation, explainability, and saved-model testing.
 
-## Final Result
+## Evaluation Protocol
 
-| Selected model | Leakage-safe accuracy | Leakage-safe macro F1 | Official validation accuracy | Official validation macro F1 |
-| --- | ---: | ---: | ---: | ---: |
-| Reference-style FER CNN | 0.654 | 0.616 | 0.666 | 0.641 |
+Exact duplicate hashes with conflicting labels are removed first. The cleaned training pool is split stratified by emotion into model-training and tuning-validation sets. Model checkpoints and model selection use tuning macro F1-score only.
 
-The final CNN was selected because its macro F1-score gives a more balanced comparison across all seven emotions. It performed better than the baseline CNN and the EfficientNetB0 transfer-learning comparison.
+The duplicate-safe official validation images are reserved as one untouched final test set. After selection, the notebook evaluates only the selected model on that final test set and saves the model, results CSV, and JSON run metadata together.
+
+Historical metrics are intentionally not published here. Run the notebook from a fresh Colab runtime, then copy only the values recorded in `deepfer_run_metadata.json` and `deepfer_model_results.csv`.
+
+## Limitations
+
+This is a classroom image-classification prototype trained on small 48 by 48 grayscale face crops. It is not validated for clinical, mental-health, hiring, security, or emotion-profiling decisions. The dataset has strong class imbalance and no person identifier, so near-duplicate or same-person overlap cannot be ruled out.
 
 ## Run The Project
 
@@ -27,4 +31,4 @@ The final CNN was selected because its macro F1-score gives a more balanced comp
 3. Keep `Face Emotion Recognition Dataset.zip` in the project Drive folder.
 4. Run the notebook from top to bottom.
 
-The dataset zip is 120.5 MB, so it is stored in the project Google Drive folder rather than GitHub. The final trained model is also stored in Drive as `reference_fer_cnn_final.keras`.
+The dataset zip is 120.5 MB, so it is stored in the project Google Drive folder rather than GitHub. A clean run writes the selected `.keras` model, `deepfer_model_results.csv`, and `deepfer_run_metadata.json` to the Drive `outputs` folder.
